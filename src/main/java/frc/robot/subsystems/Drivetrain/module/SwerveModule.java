@@ -19,7 +19,7 @@ public class SwerveModule {
     private SwerveModuleState desiredState;
 
     public SwerveModule(int driveMotorID, int steerMotorID, double zeroOffset) {
-        driveMotor = MotorFactory.createMotor(steerMotorID, DrivetrainConstants.driveMotorModel, DrivetrainConfig.getDriveMotorConfig());
+        driveMotor = MotorFactory.createMotor(driveMotorID, DrivetrainConstants.driveMotorModel, DrivetrainConfig.getDriveMotorConfig());
         steerMotor = MotorFactory.createMotor(steerMotorID, DrivetrainConstants.steerMotorModel, DrivetrainConfig.getSteerMotorConfig(zeroOffset));
 
         driveEncoder = driveMotor.getEncoder();
