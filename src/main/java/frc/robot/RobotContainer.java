@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.Climber.Climbing;
 import frc.robot.Commands.Climber.ToggleClimberPosition;
 import frc.robot.Commands.Drivetrain.Drive;
+import frc.robot.Commands.Intake.Roller.Intaking;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 
 public class RobotContainer {
@@ -25,6 +26,8 @@ public class RobotContainer {
 		
 		controller.b().onTrue(new ToggleClimberPosition());
 		controller.x().onTrue(new Climbing());
+
+		controller.a().toggleOnTrue(new Intaking());
 	}
 
   	public Command getAutonomousCommand() {
