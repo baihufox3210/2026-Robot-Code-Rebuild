@@ -21,6 +21,8 @@ public class RobotContainer {
   	}
 
   	private void configureBindings() {
+		controller.leftBumper().onTrue(new ToggleClimberPosition());
+		
 		controller.b().onTrue(new ToggleClimberPosition());
 		controller.x().onTrue(new Climbing());
 	}
