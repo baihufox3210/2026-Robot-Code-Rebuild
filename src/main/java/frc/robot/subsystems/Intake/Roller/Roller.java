@@ -16,6 +16,8 @@ public class Roller extends SubsystemBase {
             RollerConstant.rollerMotorModel,
             RollerConfig.getRollerMotorConfig()
         );
+
+        rollerMotor.configure();
     }
 
     private void set(double percent) {
