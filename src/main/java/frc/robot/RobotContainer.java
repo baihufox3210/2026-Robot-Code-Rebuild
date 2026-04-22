@@ -3,6 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Commands.Climber.Climbing;
+import frc.robot.Commands.Climber.ToggleClimberPosition;
 import frc.robot.Commands.Drivetrain.Drive;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 
@@ -18,7 +20,10 @@ public class RobotContainer {
 		drivetrain.configurePathPlanner();
   	}
 
-  	private void configureBindings() {}
+  	private void configureBindings() {
+		controller.b().onTrue(new ToggleClimberPosition());
+		controller.x().onTrue(new Climbing());
+	}
 
   	public Command getAutonomousCommand() {
     	return Commands.print("No autonomous command configured");
