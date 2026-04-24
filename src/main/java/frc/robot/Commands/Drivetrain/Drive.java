@@ -20,7 +20,7 @@ public class Drive extends Command {
     public void execute() {
         double xSpeed = InputTransform.applyDeadband(controller.getLeftY());
         double ySpeed = InputTransform.applyDeadband(controller.getLeftX());
-        double rot = -InputTransform.applyDeadband(controller.getRightX());
+        double rot = InputTransform.applyDeadband(controller.getRightX());
 
         drivetrain.drive(xSpeed, ySpeed, rot);
     }
