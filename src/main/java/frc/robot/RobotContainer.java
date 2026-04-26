@@ -1,11 +1,15 @@
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.Climber.Climbing;
 import frc.robot.Commands.Climber.ToggleClimberPosition;
 import frc.robot.Commands.Drivetrain.Drive;
+import frc.robot.Commands.Intake.Pivot.TogglePivotPosition;
 import frc.robot.Commands.Intake.Roller.Intaking;
 import frc.robot.Commands.Shooter.Shooting;
 import frc.robot.Commands.Shooter.SpinningIdle;
@@ -28,7 +32,7 @@ public class RobotContainer {
   	}
 
   	private void configureBindings() {
-		controller.leftBumper().onTrue(new ToggleClimberPosition());
+		controller.leftBumper().onTrue(new TogglePivotPosition());
 		
 		controller.b().onTrue(new ToggleClimberPosition());
 		controller.x().onTrue(new Climbing());
@@ -43,6 +47,15 @@ public class RobotContainer {
 	}
 
   	public Command getAutonomousCommand() {
-    	return Commands.print("No autonomous command configured");
+    	try {
+			PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
+			return Commands.parallel(
+				AutoBuilder.followPath(path),
+				new Shooting().withTimeout(5)
+			);
+		}
+		catch (Exception e) {
+			return Commands.print("No autonomous command configured");
+		}
 	}
 }

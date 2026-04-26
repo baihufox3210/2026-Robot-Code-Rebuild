@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
 import frc.robot.subsystems.Drivetrain.DrivetrainConstants.driveMotorConstants;
@@ -62,6 +63,8 @@ public class Drivetrain extends SubsystemBase {
         );
 
         publisherField.set(getPose());
+
+        SmartDashboard.putNumber("robotHeading", getHeading().getDegrees());
     }
 
     public void configurePathPlanner() {

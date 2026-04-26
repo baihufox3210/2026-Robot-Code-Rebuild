@@ -27,7 +27,7 @@ public class DrivetrainConstants {
 
     public static final int[] canCoderID = {31, 32, 33, 34};
 
-    public static final double[] zeroOffsets = {0.17, 0.01, 0.33, 0.15};
+    public static final double[] zeroOffsets = {0.65, 0.51, 0.83, 0.64};
 
     public static final double trackWidth = 0.635;
     public static final double wheelBase = 0.635;
