@@ -1,5 +1,10 @@
 package frc.robot;
 
+import static edu.wpi.first.units.Units.Meters;
+
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class RobotConstants {
@@ -12,4 +17,9 @@ public class RobotConstants {
         if(alliance.isPresent()) return alliance.get() == DriverStation.Alliance.Red;
         return false;
     }
+
+    public static final Translation2d fieldSize = new Translation2d(16.54, 8.07);
+    public static final Translation3d allianceHub = new Translation3d(4.07, 4.03, 1.9);
+
+    public static final Distance allianceDepth = Meters.of(4.03);
 }
