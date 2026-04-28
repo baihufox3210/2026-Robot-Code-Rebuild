@@ -15,6 +15,7 @@ import frc.robot.Commands.Shooter.Shooting;
 import frc.robot.Commands.Shooter.SpinningIdle;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Shooter.Flywheel.Flywheel;
+import frc.robot.subsystems.Vision.Vision;
 
 public class RobotContainer {
   	private final CommandXboxController controller = new CommandXboxController(0);
@@ -23,6 +24,8 @@ public class RobotContainer {
 	private final Flywheel flywheel = Flywheel.getInstance();
 
   	public RobotContainer() {
+		new Vision(drivetrain::addVisionMeasurement);
+		
 		drivetrain.setDefaultCommand(new Drive(controller));
 		flywheel.setDefaultCommand(new SpinningIdle());
 
