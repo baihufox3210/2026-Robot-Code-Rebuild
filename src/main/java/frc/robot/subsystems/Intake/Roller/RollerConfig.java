@@ -6,7 +6,7 @@ public class RollerConfig {
     public static MotorConfig getRollerMotorConfig() {
         MotorConfig config = new MotorConfig();
 
-        config.setNeutralMode(RollerConstant.rollerMotorNeutralMode);
+        config.setNeutralMode(RollerConstants.rollerMotorNeutralMode);
         
         return config;
     }
