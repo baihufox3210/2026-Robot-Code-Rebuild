@@ -3,6 +3,10 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 
+import dev.doglog.DogLog;
+import dev.doglog.DogLogOptions;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -23,15 +27,19 @@ public class RobotContainer {
 	private final Drivetrain drivetrain = Drivetrain.getInstance();
 	private final Flywheel flywheel = Flywheel.getInstance();
 
+	private SendableChooser<Command> autoChooser;
+
   	public RobotContainer() {
 		new Vision(drivetrain::addVisionMeasurement);
-		
+
 		drivetrain.setDefaultCommand(new Drive(controller));
 		flywheel.setDefaultCommand(new SpinningIdle());
 
-    	configureBindings();
-
 		drivetrain.configurePathPlanner();
+
+		configureAutonomous();
+		configureLogging();
+    	configureBindings();
   	}
 
   	private void configureBindings() {
@@ -48,6 +56,24 @@ public class RobotContainer {
 			)
 		);
 	}
+
+	private void configureAutonomous() {
+		autoChooser = AutoBuilder.buildAutoChooser();
+		SmartDashboard.putData("Auto Chooser", autoChooser);
+	}
+
+	private void configureLogging() {
+    DogLog.setOptions(
+        new DogLogOptions()
+            .withCaptureConsole(true)
+            .withCaptureDs(true)
+            .withNtPublish(true)
+            .withCaptureNt(true)
+            .withLogExtras(true)
+    );
+
+    DogLog.setPdh(RobotConstants.PDH);
+}
 
   	public Command getAutonomousCommand() {
     	try {

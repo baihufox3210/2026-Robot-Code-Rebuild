@@ -18,8 +18,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
 import frc.robot.control.field.FieldRegionDetector;
@@ -38,11 +36,8 @@ public class Drivetrain extends SubsystemBase {
 
     private final FieldRegionDetector fieldRegionDetector;
 
-    public final PowerDistribution PDP;
-
     private Drivetrain() {
         gyro = GyroFactory.createGyro(DrivetrainConstants.gyroID, DrivetrainConstants.gyroModel, new GyroConfig());
-        PDP = new PowerDistribution(50, ModuleType.kRev);
 
         swerveModules = new SwerveModule[4];
         for(int i = 0; i < 4; i++) {
