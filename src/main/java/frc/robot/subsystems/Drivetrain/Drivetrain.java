@@ -6,7 +6,9 @@ import com.GFL.lib.hardware.interfaces.GenericGyro;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.RobotConfig;
 
+import dev.doglog.DogLog;
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -16,12 +18,13 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
+import frc.robot.control.field.FieldRegionDetector;
+import frc.robot.control.field.FieldRegionDetector.FieldRegion;
 import frc.robot.subsystems.Drivetrain.DrivetrainConstants.driveMotorConstants;
 import frc.robot.subsystems.Drivetrain.DrivetrainConstants.steerMotorConstants;
 import frc.robot.subsystems.Drivetrain.module.SwerveModule;
@@ -32,12 +35,15 @@ public class Drivetrain extends SubsystemBase {
     private final GenericGyro gyro;
     private final SwerveModule[] swerveModules;
 
+    private final PowerDistribution PDP;
+
     private final SwerveDrivePoseEstimator poseEstimator;
 
-    private final StructPublisher<Pose2d> publisherField;
+    private final FieldRegionDetector fieldRegionDetector;
 
     private Drivetrain() {
         gyro = GyroFactory.createGyro(DrivetrainConstants.gyroID, DrivetrainConstants.gyroModel, new GyroConfig());
+        PDP = new PowerDistribution(50, ModuleType.kRev);
 
         swerveModules = new SwerveModule[4];
         for(int i = 0; i < 4; i++) {
@@ -55,19 +61,19 @@ public class Drivetrain extends SubsystemBase {
             DrivetrainConstants.initialPose
         );
 
-        publisherField = NetworkTableInstance.getDefault().getStructTopic("Field", Pose2d.struct).publish();
+        fieldRegionDetector = new FieldRegionDetector();
     }
 
     @Override
     public void periodic() {
-        poseEstimator.update(
-            getHeading(),
-            getModulePositions()
-        );
-
-        publisherField.set(getPose());
-
-        SmartDashboard.putNumber("robotHeading", getHeading().getDegrees());
+        poseEstimator.update(getHeading(), getModulePositions());
+        log();
+    }
+    
+    private void log() {
+        DogLog.log("Drivetrain/CurrentPose", getPose());
+        DogLog.log("Drivetrain/Heading", getHeading().getDegrees());
+        DogLog.log("Drivetrain/FieldRegion", getFieldRegion());
     }
 
     public void configurePathPlanner() {
@@ -118,6 +124,10 @@ public class Drivetrain extends SubsystemBase {
             getModulePositions(),
             pose
         );
+    }
+
+    public FieldRegion getFieldRegion() {
+        return fieldRegionDetector.getCurrentRegion(getPose());
     }
 
     public void drive(double xSpeed, double ySpeed, double rot) {
