@@ -35,11 +35,11 @@ public class Drivetrain extends SubsystemBase {
     private final GenericGyro gyro;
     private final SwerveModule[] swerveModules;
 
-    private final PowerDistribution PDP;
-
     private final SwerveDrivePoseEstimator poseEstimator;
 
     private final FieldRegionDetector fieldRegionDetector;
+
+    public final PowerDistribution PDP;
 
     private Drivetrain() {
         gyro = GyroFactory.createGyro(DrivetrainConstants.gyroID, DrivetrainConstants.gyroModel, new GyroConfig());
