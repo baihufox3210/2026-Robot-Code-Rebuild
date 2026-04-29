@@ -1,4 +1,4 @@
-package frc.robot.utils;
+package frc.robot.control.field;
 
 import static edu.wpi.first.units.Units.Meters;
 
@@ -13,7 +13,7 @@ public class FieldRegionDetector {
     public FieldRegionDetector(Supplier<Pose2d> poseSupplier) {
         this.poseSupplier = poseSupplier;
     }
-
+    
     public FieldRegion getCurrentRegion() {
         Pose2d currentPose = poseSupplier.get();
 
@@ -22,12 +22,12 @@ public class FieldRegionDetector {
         double redStartLine = RobotConstants.fieldSize.getX() - RobotConstants.allianceDepth.in(Meters);
         double blueStartLine = RobotConstants.allianceDepth.in(Meters);
 
-        if(x < blueStartLine) return FieldRegion.BLUE;
-        if(x > redStartLine) return FieldRegion.RED;
-        return FieldRegion.NEUTRAL;
+        if(x < blueStartLine) return FieldRegion.BlueAlliance;
+        if(x > redStartLine) return FieldRegion.RedAlliance;
+        return FieldRegion.Neutral;
     }
-
+    
     public enum FieldRegion {
-        RED, NEUTRAL, BLUE
-    };
+        RedAlliance, Neutral, BlueAlliance;
+    }
 }
