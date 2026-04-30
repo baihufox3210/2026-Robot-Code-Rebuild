@@ -5,7 +5,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Commands.Climber.Climbing;
 import frc.robot.Commands.Climber.ToggleClimberPosition;
 import frc.robot.Commands.Drivetrain.Drive;
@@ -18,7 +18,7 @@ import frc.robot.subsystems.Shooter.Flywheel.Flywheel;
 import frc.robot.subsystems.Vision.Vision;
 
 public class RobotContainer {
-  	private final CommandXboxController controller = new CommandXboxController(0);
+	private final CommandJoystick controller = new CommandJoystick(0);
 
 	private final Drivetrain drivetrain = Drivetrain.getInstance();
 	private final Flywheel flywheel = Flywheel.getInstance();
@@ -35,14 +35,14 @@ public class RobotContainer {
   	}
 
   	private void configureBindings() {
-		controller.leftBumper().onTrue(new TogglePivotPosition());
+		controller.button(5).onTrue(new TogglePivotPosition());
 		
-		controller.b().onTrue(new ToggleClimberPosition());
-		controller.x().onTrue(new Climbing());
+		controller.button(2).onTrue(new ToggleClimberPosition());
+		controller.button(4).onTrue(new Climbing());
 
-		controller.a().toggleOnTrue(new Intaking());
+		controller.button(3).toggleOnTrue(new Intaking());
 
-		controller.rightBumper().whileTrue(
+		controller.button(6).whileTrue(
 			Commands.parallel(
 				new Shooting()
 			)
