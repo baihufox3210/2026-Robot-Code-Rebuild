@@ -74,7 +74,10 @@ public class Drivetrain extends SubsystemBase {
                 (speeds, feedforwards) -> drive(speeds),
                 DrivetrainConstants.holonomicDriveController,
                 RobotConfig.fromGUISettings(),
-                () -> RobotConstants.isRedAlliance(),
+                () -> {
+                    DriverStation.Alliance alliance = DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue);
+                    return alliance == DriverStation.Alliance.Red;
+                },
                 this
             );
         }
