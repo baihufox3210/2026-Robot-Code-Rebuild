@@ -3,6 +3,7 @@ package frc.robot.control.field;
 import static edu.wpi.first.units.Units.Meters;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.RobotConstants;
 
 public class FieldRegionDetector {   
@@ -19,5 +20,17 @@ public class FieldRegionDetector {
 
     public enum FieldRegion {
         RedAlliance, Neutral, BlueAlliance;
+
+        public DriverStation.Alliance getAlliance() {
+            switch(this) {
+                case RedAlliance: return DriverStation.Alliance.Red;
+                case BlueAlliance: return DriverStation.Alliance.Blue;
+                default: return null;
+            }
+        }
+
+        public boolean matches(DriverStation.Alliance alliance) {
+            return getAlliance() != null && getAlliance() == alliance;
+        }
     }
 }

@@ -13,7 +13,13 @@ public class RobotConstants {
     public static final double deltaSecond = 0.02;
 
     public static final Translation2d fieldSize = new Translation2d(16.54, 8.07);
+
     public static final Translation3d allianceHub = new Translation3d(4.07, 4.03, 1.9);
+    
+    public static final Translation3d rightShotPoint = new Translation3d(2.0, 2.0, 0);
+    public static final Translation3d leftShotPoint = new Translation3d(
+        fieldSize.getX() - rightShotPoint.getX(), rightShotPoint.getY(), rightShotPoint.getZ()
+    );
 
     public static final Distance allianceDepth = Meters.of(4.03);
 
