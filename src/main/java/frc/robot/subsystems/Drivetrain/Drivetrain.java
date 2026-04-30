@@ -34,8 +34,6 @@ public class Drivetrain extends SubsystemBase {
 
     private final SwerveDrivePoseEstimator poseEstimator;
 
-    private final FieldRegionDetector fieldRegionDetector;
-
     private Drivetrain() {
         gyro = GyroFactory.createGyro(DrivetrainConstants.gyroID, DrivetrainConstants.gyroModel, new GyroConfig());
 
@@ -54,8 +52,6 @@ public class Drivetrain extends SubsystemBase {
             getModulePositions(),
             DrivetrainConstants.initialPose
         );
-
-        fieldRegionDetector = new FieldRegionDetector();
     }
 
     @Override
@@ -67,7 +63,6 @@ public class Drivetrain extends SubsystemBase {
     private void log() {
         DogLog.log("Drivetrain/CurrentPose", getPose());
         DogLog.log("Drivetrain/Heading", getHeading().getDegrees());
-        DogLog.log("Drivetrain/FieldRegion", getFieldRegion());
     }
 
     public void configurePathPlanner() {
@@ -118,10 +113,6 @@ public class Drivetrain extends SubsystemBase {
             getModulePositions(),
             pose
         );
-    }
-
-    public FieldRegion getFieldRegion() {
-        return fieldRegionDetector.getCurrentRegion(getPose());
     }
 
     public void drive(double xSpeed, double ySpeed, double rot) {

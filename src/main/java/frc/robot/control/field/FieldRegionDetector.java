@@ -6,7 +6,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.RobotConstants;
 
 public class FieldRegionDetector {   
-    public FieldRegion getCurrentRegion(Pose2d currentPose) {
+    public static FieldRegion getCurrentRegion(Pose2d currentPose) {
         double x = currentPose.getX();
 
         double redStartLine = RobotConstants.fieldSize.getX() - RobotConstants.allianceDepth.in(Meters);
