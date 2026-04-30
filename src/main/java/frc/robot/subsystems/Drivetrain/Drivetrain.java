@@ -20,8 +20,6 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
-import frc.robot.control.field.FieldRegionDetector;
-import frc.robot.control.field.FieldRegionDetector.FieldRegion;
 import frc.robot.subsystems.Drivetrain.DrivetrainConstants.driveMotorConstants;
 import frc.robot.subsystems.Drivetrain.DrivetrainConstants.steerMotorConstants;
 import frc.robot.subsystems.Drivetrain.module.SwerveModule;
