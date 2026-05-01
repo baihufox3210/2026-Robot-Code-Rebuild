@@ -1,4 +1,4 @@
-package frc.robot.control.targeting;
+package frc.robot.control.aiming;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
