@@ -149,6 +149,10 @@ public class Drivetrain extends SubsystemBase {
         setSwerveModuleStates(swerveModuleStates);
     }
 
+    public boolean isAtHeading() {
+        return DrivetrainConstants.rotationPID.atSetpoint();
+    }
+
     private void setSwerveModuleStates(SwerveModuleState[] desiredStates) {
         for(int i = 0; i < 4; i++) {
             swerveModules[i].setDesiredState(desiredStates[i]);
