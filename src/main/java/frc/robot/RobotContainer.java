@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Commands.Climber.Climbing;
 import frc.robot.Commands.Climber.ToggleClimberPosition;
 import frc.robot.Commands.Drivetrain.Drive;
+import frc.robot.Commands.Drivetrain.DriveToAim;
 import frc.robot.Commands.Intake.Pivot.TogglePivotPosition;
 import frc.robot.Commands.Intake.Roller.Intaking;
 import frc.robot.Commands.Shooter.Shoot;
@@ -50,6 +51,7 @@ public class RobotContainer {
 
 		controller.button(6).whileTrue(
 			Commands.parallel(
+				new DriveToAim(controller, aimSystem::calculate),
 				new Shoot(aimSystem::calculate)
 			)
 		);
