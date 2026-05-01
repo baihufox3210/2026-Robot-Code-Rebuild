@@ -52,7 +52,7 @@ public class RobotContainer {
 		controller.button(6).whileTrue(
 			Commands.parallel(
 				new DriveToAim(controller, aimSystem::calculate),
-				new Shoot(aimSystem::calculate)
+				new Shoot(aimSystem::calculate).onlyIf(drivetrain::isAtHeading)
 			)
 		);
 	}
