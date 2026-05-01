@@ -120,7 +120,20 @@ public class Drivetrain extends SubsystemBase {
         ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
             xSpeed * driveMotorConstants.maxSpeedMetersPerSecond,
             ySpeed * driveMotorConstants.maxSpeedMetersPerSecond,
-            rot * steerMotorConstants.maxSpeedMetersPerSecond,
+            rot * steerMotorConstants.maxAngularSpeedRadPerSec,
+            getHeading()
+        );
+
+        drive(chassisSpeeds);
+    }
+
+    public void drive(double xSpeed, double ySpeed, Rotation2d targetHeading) {
+        double rot = DrivetrainConstants.rotationPID.calculate(getHeading().getRadians(), targetHeading.getRadians());
+
+        ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+            xSpeed * driveMotorConstants.maxSpeedMetersPerSecond,
+            ySpeed * driveMotorConstants.maxSpeedMetersPerSecond,
+            rot * steerMotorConstants.maxAngularSpeedRadPerSec,
             getHeading()
         );
 

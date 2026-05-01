@@ -9,6 +9,7 @@ import com.GFL.lib.hardware.config.MotorConfig.SensorSource;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -44,6 +45,8 @@ public class DrivetrainConstants {
         new PIDConstants(2.0, 0.0, 0.0)
     );
 
+    public static final PIDController rotationPID = new PIDController(1.0, 0.0, 0.0);
+
     public static final Pose2d initialPose = new Pose2d(0, 0, Rotation2d.kZero);
 
     public static final class driveMotorConstants {
@@ -66,7 +69,7 @@ public class DrivetrainConstants {
 
         public static final double gearRatio = 25;
 
-        public static final double maxSpeedMetersPerSecond = 20.0;
+        public static final double maxAngularSpeedRadPerSec = 20.0;
 
         public static final double positionConversionFactory = 2 * Math.PI;
         public static final double velocityConversionFactory = positionConversionFactory / 60;
@@ -79,5 +82,10 @@ public class DrivetrainConstants {
         public static final double kD = 0.1;
 
         public static final SensorSource sensorSource = SensorSource.ENCODER_PORT;
+    }
+
+    static {
+        rotationPID.enableContinuousInput(-Math.PI, Math.PI);
+        rotationPID.setTolerance(1.0);
     }
 }
