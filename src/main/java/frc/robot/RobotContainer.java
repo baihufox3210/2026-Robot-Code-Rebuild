@@ -15,8 +15,7 @@ import frc.robot.Commands.Climber.ToggleClimberPosition;
 import frc.robot.Commands.Drivetrain.Drive;
 import frc.robot.Commands.Intake.Pivot.TogglePivotPosition;
 import frc.robot.Commands.Intake.Roller.Intaking;
-import frc.robot.Commands.Shooter.Shooting;
-import frc.robot.Commands.Shooter.SpinningIdle;
+import frc.robot.Commands.Shooter.Shoot;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.subsystems.Shooter.Flywheel.Flywheel;
 import frc.robot.subsystems.Vision.Vision;
@@ -33,7 +32,6 @@ public class RobotContainer {
 		new Vision(drivetrain::addVisionMeasurement);
 
 		drivetrain.setDefaultCommand(new Drive(controller));
-		flywheel.setDefaultCommand(new SpinningIdle());
 
 		drivetrain.configurePathPlanner();
 
@@ -52,7 +50,7 @@ public class RobotContainer {
 
 		controller.rightBumper().whileTrue(
 			Commands.parallel(
-				new Shooting()
+				new Shoot()
 			)
 		);
 	}
@@ -76,15 +74,6 @@ public class RobotContainer {
 }
 
   	public Command getAutonomousCommand() {
-    	try {
-			PathPlannerPath path = PathPlannerPath.fromPathFile("Example Path");
-			return Commands.parallel(
-				AutoBuilder.followPath(path),
-				new Shooting().withTimeout(5)
-			);
-		}
-		catch (Exception e) {
-			return Commands.print("No autonomous command configured");
-		}
+    	return autoChooser.getSelected();
 	}
 }
