@@ -50,7 +50,7 @@ public class RobotContainer {
 
 		controller.rightBumper().whileTrue(
 			Commands.parallel(
-				new Shoot()
+				new Shoot(aimSystem::calculate)
 			)
 		);
 	}
