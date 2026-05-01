@@ -15,6 +15,5 @@ public class FlywheelConstants {
     public static final double kP = 1.0;
     public static final double kV = 0.12;
 
-    public static final double idleSpeed = 0.3;
-    public static final double shootingSpeed = 0.8;
+    public static final double toleranceVelocity = 5;
 }

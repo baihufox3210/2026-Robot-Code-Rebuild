@@ -6,6 +6,7 @@ import com.GFL.lib.hardware.interfaces.GenericGyro;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.RobotConfig;
 
+import dev.doglog.DogLog;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -16,10 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
 import frc.robot.subsystems.Drivetrain.DrivetrainConstants.driveMotorConstants;
@@ -33,8 +31,6 @@ public class Drivetrain extends SubsystemBase {
     private final SwerveModule[] swerveModules;
 
     private final SwerveDrivePoseEstimator poseEstimator;
-
-    private final StructPublisher<Pose2d> publisherField;
 
     private Drivetrain() {
         gyro = GyroFactory.createGyro(DrivetrainConstants.gyroID, DrivetrainConstants.gyroModel, new GyroConfig());
@@ -54,20 +50,17 @@ public class Drivetrain extends SubsystemBase {
             getModulePositions(),
             DrivetrainConstants.initialPose
         );
-
-        publisherField = NetworkTableInstance.getDefault().getStructTopic("Field", Pose2d.struct).publish();
     }
 
     @Override
     public void periodic() {
-        poseEstimator.update(
-            getHeading(),
-            getModulePositions()
-        );
-
-        publisherField.set(getPose());
-
-        SmartDashboard.putNumber("robotHeading", getHeading().getDegrees());
+        poseEstimator.update(getHeading(), getModulePositions());
+        log();
+    }
+    
+    private void log() {
+        DogLog.log("Drivetrain/CurrentPose", getPose());
+        DogLog.log("Drivetrain/Heading", getHeading().getDegrees());
     }
 
     public void configurePathPlanner() {
@@ -79,7 +72,10 @@ public class Drivetrain extends SubsystemBase {
                 (speeds, feedforwards) -> drive(speeds),
                 DrivetrainConstants.holonomicDriveController,
                 RobotConfig.fromGUISettings(),
-                () -> RobotConstants.isRedAlliance(),
+                () -> {
+                    DriverStation.Alliance alliance = DriverStation.getAlliance().orElse(DriverStation.Alliance.Blue);
+                    return alliance == DriverStation.Alliance.Red;
+                },
                 this
             );
         }
@@ -108,7 +104,7 @@ public class Drivetrain extends SubsystemBase {
         return gyro.getRotation2d();
     }
 
-    private Pose2d getPose() {
+    public Pose2d getPose() {
         return poseEstimator.getEstimatedPosition();
     }
 

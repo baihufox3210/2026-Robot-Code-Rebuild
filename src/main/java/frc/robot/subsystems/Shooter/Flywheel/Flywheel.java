@@ -1,14 +1,17 @@
 package frc.robot.subsystems.Shooter.Flywheel;
 
 import com.GFL.lib.Factory.MotorFactory;
+import com.GFL.lib.hardware.interfaces.GenericEncoder;
 import com.GFL.lib.hardware.interfaces.GenericMotor;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.utils.ToleranceUtil;
 
 public class Flywheel extends SubsystemBase {
     private static Flywheel instance;
 
     private final GenericMotor flywheelMotor;
+    private final GenericEncoder flywheelEncoder;
 
     private Flywheel() {
         flywheelMotor = MotorFactory.createMotor(
@@ -17,19 +20,16 @@ public class Flywheel extends SubsystemBase {
             FlywheelConfig.getFlywheelMotorConfig()
         );
 
+        flywheelEncoder = flywheelMotor.getEncoder();
         flywheelMotor.configure();
     }
 
-    public void spinningIdle() {
-        set(FlywheelConstants.idleSpeed);
+    public void setVelocity(double targetVelocity) {
+        flywheelMotor.setVelocity(targetVelocity);
     }
 
-    public void shooting() {
-        set(FlywheelConstants.shootingSpeed);
-    }
-
-    private void set(double percent) {
-        flywheelMotor.set(percent);
+    public boolean atTargetVelocity(double targetVelocity) {
+        return ToleranceUtil.isNear(flywheelEncoder.getVelocity(), targetVelocity, FlywheelConstants.toleranceVelocity);
     }
 
     public void stop() {

@@ -12,8 +12,8 @@ public class Roller extends SubsystemBase {
     
     private Roller() {
         rollerMotor = MotorFactory.createMotor(
-            RollerConstant.rollerMotorID,
-            RollerConstant.rollerMotorModel,
+            RollerConstants.rollerMotorID,
+            RollerConstants.rollerMotorModel,
             RollerConfig.getRollerMotorConfig()
         );
 
@@ -25,7 +25,7 @@ public class Roller extends SubsystemBase {
     }
 
     public void intaking() {
-        set(RollerConstant.intakeSpeed);
+        set(RollerConstants.intakeSpeed);
     }
 
     public void stop() {
