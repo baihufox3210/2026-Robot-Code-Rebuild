@@ -1,7 +1,6 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathPlannerPath;
 
 import dev.doglog.DogLog;
 import dev.doglog.DogLogOptions;
@@ -16,23 +15,24 @@ import frc.robot.Commands.Drivetrain.Drive;
 import frc.robot.Commands.Intake.Pivot.TogglePivotPosition;
 import frc.robot.Commands.Intake.Roller.Intaking;
 import frc.robot.Commands.Shooter.Shoot;
+import frc.robot.control.aiming.AimSystem;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
-import frc.robot.subsystems.Shooter.Flywheel.Flywheel;
 import frc.robot.subsystems.Vision.Vision;
 
 public class RobotContainer {
   	private final CommandXboxController controller = new CommandXboxController(0);
-
 	private final Drivetrain drivetrain = Drivetrain.getInstance();
-	private final Flywheel flywheel = Flywheel.getInstance();
+
+	private final AimSystem aimSystem;
 
 	private SendableChooser<Command> autoChooser;
 
   	public RobotContainer() {
 		new Vision(drivetrain::addVisionMeasurement);
 
-		drivetrain.setDefaultCommand(new Drive(controller));
+		aimSystem = new AimSystem(drivetrain::getPose);
 
+		drivetrain.setDefaultCommand(new Drive(controller));
 		drivetrain.configurePathPlanner();
 
 		configureAutonomous();

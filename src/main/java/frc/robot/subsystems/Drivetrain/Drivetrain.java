@@ -104,7 +104,7 @@ public class Drivetrain extends SubsystemBase {
         return gyro.getRotation2d();
     }
 
-    private Pose2d getPose() {
+    public Pose2d getPose() {
         return poseEstimator.getEstimatedPosition();
     }
 
