@@ -11,20 +11,20 @@ public class Shoot extends Command {
     private final Feeder feeder;
     private final Flywheel flywheel;
 
-    private final Supplier<ShotParameters> shotParameterSupplier;
+    private final Supplier<ShotParameters> shotParamsSupplier;
 
-    public Shoot(Supplier<ShotParameters> shotParameterSupplier) {
+    public Shoot(Supplier<ShotParameters> shotParamsSupplier) {
         this.feeder = Feeder.getInstance();
         this.flywheel = Flywheel.getInstance();
 
-        this.shotParameterSupplier = shotParameterSupplier;
+        this.shotParamsSupplier = shotParamsSupplier;
 
         addRequirements(feeder, flywheel);
     }
 
     @Override
     public void execute() {
-        var shotParameter = shotParameterSupplier.get();
+        var shotParameter = shotParamsSupplier.get();
         double targetVelocity = shotParameter.targetVelocity();
         
         flywheel.setVelocity(targetVelocity);
