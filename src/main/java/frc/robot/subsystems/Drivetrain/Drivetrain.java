@@ -48,7 +48,7 @@ public class Drivetrain extends SubsystemBase {
             DrivetrainConstants.kinematics,
             getHeading(),
             getModulePositions(),
-            DrivetrainConstants.initialPose
+            RobotConstants.initialPose
         );
     }
 

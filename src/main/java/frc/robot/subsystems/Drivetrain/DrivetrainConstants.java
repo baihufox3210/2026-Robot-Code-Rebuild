@@ -47,8 +47,6 @@ public class DrivetrainConstants {
 
     public static final PIDController rotationPID = new PIDController(1.0, 0.0, 0.0);
 
-    public static final Pose2d initialPose = new Pose2d(0, 0, Rotation2d.kZero);
-
     public static final class driveMotorConstants {
         public static final double gearRatio = 5.08;
 
