@@ -20,7 +20,8 @@ public class AimSystem {
 
         return new ShotParameters(
             FieldGeometry.toTargetHeading(currentPose, targetPose),
-            ShotCalculator.getOptimalSetpoint(currentPose, targetPose)
+            ShotCalculator.getOptimalSetpoint(currentPose, targetPose),
+            targetPose
         );
     }
 }
