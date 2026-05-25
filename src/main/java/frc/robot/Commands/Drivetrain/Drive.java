@@ -1,15 +1,15 @@
 package frc.robot.Commands.Drivetrain;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.utils.InputTransform;
 
 public class Drive extends Command {
     private final Drivetrain drivetrain;
-    private final CommandJoystick controller;
+    private final CommandXboxController controller;
 
-    public Drive(CommandJoystick controller) {
+    public Drive(CommandXboxController controller) {
         this.controller = controller;
         this.drivetrain = Drivetrain.getInstance();
 
@@ -18,9 +18,9 @@ public class Drive extends Command {
 
     @Override
     public void execute() {
-        double xSpeed = -InputTransform.applyDeadband(controller.getY());
-        double ySpeed = -InputTransform.applyDeadband(controller.getX());
-        double rot = -InputTransform.applyDeadband(controller.getZ());
+        double xSpeed = InputTransform.applyDeadband(controller.getRightY());
+        double ySpeed = InputTransform.applyDeadband(controller.getRightX());
+        double rot = InputTransform.applyDeadband(controller.getLeftX());
 
         drivetrain.drive(xSpeed, ySpeed, rot);
     }
