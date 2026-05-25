@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.control.aiming.ShotParameters;
 import frc.robot.subsystems.Drivetrain.Drivetrain;
 import frc.robot.utils.InputTransform;
@@ -13,9 +13,9 @@ public class DriveToAim extends Command {
     private final Drivetrain drivetrain;
 
     private final Supplier<ShotParameters> shotParamsSupplier;
-    private final CommandJoystick controller;
+    private final CommandXboxController controller;
 
-    public DriveToAim(CommandJoystick controller, Supplier<ShotParameters> shotParamsSupplier) {
+    public DriveToAim(CommandXboxController controller, Supplier<ShotParameters> shotParamsSupplier) {
         this.drivetrain = Drivetrain.getInstance();
 
         this.controller = controller;
@@ -29,8 +29,8 @@ public class DriveToAim extends Command {
         var shotParameter = shotParamsSupplier.get();
         Rotation2d targetHeading = shotParameter.targetHeading();
 
-        double xSpeed = InputTransform.applyDeadband(controller.getX());
-        double ySpeed = InputTransform.applyDeadband(controller.getY());
+        double xSpeed = InputTransform.applyDeadband(controller.getRightY());
+        double ySpeed = InputTransform.applyDeadband(controller.getRightX());
 
         drivetrain.drive(xSpeed, ySpeed, targetHeading);
     }
