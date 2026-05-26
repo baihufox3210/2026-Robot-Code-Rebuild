@@ -13,6 +13,7 @@ import frc.robot.Commands.Climber.Climbing;
 import frc.robot.Commands.Climber.ToggleClimberPosition;
 import frc.robot.Commands.Drivetrain.Drive;
 import frc.robot.Commands.Drivetrain.DriveToAim;
+import frc.robot.Commands.Gyro.Reset;
 import frc.robot.Commands.Intake.Pivot.TogglePivotPosition;
 import frc.robot.Commands.Intake.Roller.Intaking;
 import frc.robot.Commands.Shooter.Shoot;
@@ -51,6 +52,8 @@ public class RobotContainer {
 		controller.b().onTrue(new Climbing());
 
 		controller.a().toggleOnTrue(new Intaking());
+
+		controller.y().onTrue(new Reset());
 
 		controller.rightBumper().whileTrue(
 			Commands.parallel(
