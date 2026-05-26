@@ -2,6 +2,7 @@ package frc.robot.Commands.Drivetrain;
 
 import java.util.function.Supplier;
 
+import dev.doglog.DogLog;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -29,8 +30,12 @@ public class DriveToAim extends Command {
         var shotParameter = shotParamsSupplier.get();
         Rotation2d targetHeading = shotParameter.targetHeading();
 
-        double xSpeed = InputTransform.applyDeadband(controller.getRightY());
-        double ySpeed = InputTransform.applyDeadband(controller.getRightX());
+        double xSpeed = -InputTransform.applyDeadband(controller.getLeftY());
+        double ySpeed = -InputTransform.applyDeadband(controller.getLeftX());
+
+        DogLog.log("Aim/targetHeading", shotParameter.targetHeading());
+        DogLog.log("Aim/targetPose", shotParameter.targetPose());
+        DogLog.log("Aim/targetVelocity", shotParameter.targetVelocity());
 
         drivetrain.drive(xSpeed, ySpeed, targetHeading);
     }
