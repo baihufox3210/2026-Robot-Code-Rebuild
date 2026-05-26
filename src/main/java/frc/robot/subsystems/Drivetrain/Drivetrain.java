@@ -6,7 +6,6 @@ import com.GFL.lib.hardware.interfaces.GenericGyro;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.RobotConfig;
 
-import dev.doglog.DogLog;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -18,6 +17,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
 import frc.robot.subsystems.Drivetrain.DrivetrainConstants.driveMotorConstants;
@@ -31,6 +32,8 @@ public class Drivetrain extends SubsystemBase {
     private final SwerveModule[] swerveModules;
 
     private final SwerveDrivePoseEstimator poseEstimator;
+
+    private final Field2d field;
 
     private Drivetrain() {
         gyro = GyroFactory.createGyro(DrivetrainConstants.gyroID, DrivetrainConstants.gyroModel, new GyroConfig());
@@ -50,17 +53,20 @@ public class Drivetrain extends SubsystemBase {
             getModulePositions(),
             RobotConstants.initialPose
         );
+
+        field = new Field2d();
     }
 
     @Override
     public void periodic() {
         poseEstimator.update(getHeading(), getModulePositions());
+        field.setRobotPose(getPose());
         log();
     }
     
     private void log() {
-        DogLog.log("Drivetrain/CurrentPose", getPose());
-        DogLog.log("Drivetrain/Heading", getHeading().getDegrees());
+        SmartDashboard.putData("Drivetrain/Field", field);
+        SmartDashboard.putNumber("Drivetrain/Heading", getHeading().getDegrees());
     }
 
     public void configurePathPlanner() {
@@ -102,6 +108,10 @@ public class Drivetrain extends SubsystemBase {
 
     public Rotation2d getHeading() {
         return gyro.getRotation2d();
+    }
+
+    public void resetHeading() {
+        gyro.reset();
     }
 
     public Pose2d getPose() {
